@@ -1,0 +1,135 @@
+openapi: 3.0.0
+info:
+  title: Crypto Market Data API
+  version: 1.0.0
+servers:
+  - url: https://rest.cryptoapis.io/v2
+paths:
+  /market-data/assets/assetId/630629f84e66ce0983f2cd4e:
+    parameters:
+      - in: path
+        name: assetId
+        required: true
+        schema:
+          type: string
+        description: The ID of the asset
+    get:
+      summary: Get information about Bitcoin
+      description: Retrieve information about Bitcoin identified by its ID
+      operationId: getBitcoinInfo
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BitcoinInfo'
+
+components:
+  schemas:
+    APIResponse:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+          description: The version of the API
+        requestId:
+          type: string
+          description: The unique identifier for the request
+
+    BitcoinInfo:
+      allOf:
+        - $ref: '#/components/schemas/APIResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/BitcoinData'
+
+    BitcoinData:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/BitcoinItem'
+
+    BitcoinItem:
+      type: object
+      properties:
+        assetId:
+          type: string
+          description: The ID of Bitcoin
+        assetLogo:
+          $ref: '#/components/schemas/AssetLogo'
+        assetName:
+          type: string
+          description: The name of Bitcoin
+        assetOriginalSymbol:
+          type: string
+          description: The original symbol of Bitcoin
+        assetSymbol:
+          type: string
+          description: The symbol of Bitcoin
+        assetType:
+          type: string
+          description: The type of Bitcoin (e.g., crypto, coin)
+        latestRate:
+          $ref: '#/components/schemas/LatestRate'
+        slug:
+          type: string
+          description: The slug of Bitcoin
+        specificData:
+          $ref: '#/components/schemas/BitcoinSpecificData'
+
+    AssetLogo:
+      type: object
+      properties:
+        encoding:
+          type: string
+          description: The encoding format of the image data
+        imageData:
+          type: string
+          format: byte
+          description: The image data of Bitcoin's logo encoded in base64
+        mimeType:
+          type: string
+          description: The MIME type of the image
+
+    LatestRate:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: The latest rate amount of Bitcoin
+        calculationTimestamp:
+          type: integer
+          description: The timestamp when the rate was calculated for Bitcoin
+        unit:
+          type: string
+          description: The unit of the rate (e.g., USD)
+
+    BitcoinSpecificData:
+      type: object
+      properties:
+        assetType:
+          type: string
+          description: The type of Bitcoin (e.g., coin)
+        circulatingSupply:
+          type: string
+          description: The circulating supply of Bitcoin
+        marketCapInUSD:
+          type: string
+          description: The market capitalization of Bitcoin in USD
+        maxSupply:
+          type: string
+          description: The maximum supply of Bitcoin
+        1HourPriceChangeInPercentage:
+          type: string
+          description: The price change percentage in the last hour for Bitcoin
+        1WeekPriceChangeInPercentage:
+          type: string
+          description: The price change percentage in the last week for Bitcoin
+        24HoursPriceChangeInPercentage:
+          type: string
+          description: The price change percentage in the last 24 hours for Bitcoin
+        24HoursTradingVolume:
+          type: string
+          description: The trading volume in the last 24 hours for Bitcoin
